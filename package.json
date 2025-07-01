@@ -1,0 +1,17 @@
+{
+    "name": "formula1",
+    "private": true,
+    "workspaces": [
+        "formula1-frontend",
+        "formula1-backend"
+    ],
+    "scripts": {
+        "dev": "concurrently -k -n FRONTEND,BACKEND -c green,blue \"npm --workspace formula1-frontend run dev\" \"npm --workspace formula1-backend run dev\"",
+        "test": "npm --workspace formula1-frontend test && npm --workspace formula1-backend test",
+        "test:frontend": "npm --workspace formula1-frontend test -- --watch",
+        "test:backend": "npm --workspace formula1-backend test -- --watch"
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.0"
+    }
+}

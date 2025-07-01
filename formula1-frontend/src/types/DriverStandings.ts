@@ -1,4 +1,4 @@
-import type { Column } from "../components/DataTable";
+import type { Column } from "../components/DataTable/DataTable";
 
 export interface DriverStandings {
     position: number;
@@ -11,13 +11,6 @@ export interface DriverStandings {
     };
     constructor: string;
 }
-
-type Driver = {
-    position: number;
-    name: string;
-    nationality: string;
-    points: number;
-};
 
 export const driverColumns: Column<DriverStandings>[] = [
     { key: 'position', label: 'Pos' },

@@ -1,4 +1,4 @@
-import type { Column } from "../components/DataTable";
+import type { Column } from "../components/DataTable/DataTable";
 
 export interface RaceEvent {
     round: number;

@@ -91,5 +91,7 @@ export async function fetchRaceCalendarWithWinners(year: number) {
         })
     );
 
+    calendar.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
     return calendar;
 }

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import DataTable from "../components/DataTable";
+import DataTable from "../components/DataTable/DataTable";
 import { driverColumns, type DriverStandings } from "../types/DriverStandings";
 import { constructorColumns, type ConstructorStanding } from "../types/ConstructorStandings";
-import { mockCalendarData, mockConstructors } from "../types/Mocks";
 import { calendarColumns, type RaceEvent } from "../types/RaceCalendar";
 import { api } from "../api/api";
 
@@ -56,35 +55,39 @@ export default function Dashboard() {
 
     return (
 
-        <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 h-screen">
             
-            { /* Left: Driver Standings (2/3 width) */ }
-            <div className="lg:col-span-2">
-                { loading ? (
+            { /* Left: Calendar (2/3 width) */ }
+            <div className="lg:col-span-2 h-full overflow-auto">
+                { loadingCalendar ? (
                     <p>Loading...</p>
                 ) : (
                     <DataTable
-                        title="Driver Standings"
-                        columns={driverColumns} data={driverStandings}
+                        title="Race Calendar"
+                        columns={calendarColumns} data={calendar}
                     />
                 )}
             </div>
 
-            {/* Right: Constructors + Calendar */}
-            <div className="flex flex-col gap-6">
-                <div>
-                    <DataTable
-                        title="Constructor Standings"
-                        columns={constructorColumns} data={constructorStandings}
-                    />
-                </div>
-                <div>
-                    { loadingCalendar ? (
+            {/* Right: Drivers + Constructors */}
+            <div className="flex flex-col gap-6 h-full min-h-0">
+                <div className="flex-1 overflow-auto min-h-0">
+                    { loading ? (
                         <p>Loading...</p>
                     ) : (
                         <DataTable
-                            title="Race Calendar"
-                            columns={calendarColumns} data={calendar}
+                            title="Driver Standings"
+                            columns={driverColumns} data={driverStandings}
+                        />
+                    )}
+                </div>
+                <div className="flex-1 overflow-auto min-h-0">
+                    { loadingConstructor ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <DataTable
+                            title="Constructor Standings"
+                            columns={constructorColumns} data={constructorStandings}
                         />
                     )}
                 </div>

@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+formula1-frontend/node_modules/
+formula1-backend/node_modules/
+formula1-backend/dist/
+settings.json

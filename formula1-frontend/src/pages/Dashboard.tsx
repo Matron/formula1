@@ -17,10 +17,9 @@ export default function Dashboard() {
     const [ loadingConstructor, setLoadingConstructor ] = useState(true);
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/drivers/standings')
-            .then((res) => res.json())
-            .then((data) => {
-                setDriverStandings(data);
+        api.get('/drivers/standings')
+            .then((res) => {
+                setDriverStandings(res.data);
                 setLoading(false);
             })
             .catch((err) => {

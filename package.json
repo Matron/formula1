@@ -6,12 +6,16 @@
         "formula1-backend"
     ],
     "scripts": {
+        "build-backend": "tsc -p formula1-backend/tsconfig.json",
         "dev": "concurrently -k -n FRONTEND,BACKEND -c green,blue \"npm --workspace formula1-frontend run dev\" \"npm --workspace formula1-backend run dev\"",
+        "start-backend": "tsx formula1-backend/src/index.ts",
+        "start-backend:prod": "node formula1-backend/dist/index.js",
         "test": "npm --workspace formula1-frontend test && npm --workspace formula1-backend test",
-        "test:frontend": "npm --workspace formula1-frontend test -- --watch",
-        "test:backend": "npm --workspace formula1-backend test -- --watch"
+        "test:backend": "npm --workspace formula1-backend test -- --watch",
+        "test:frontend": "npm --workspace formula1-frontend test -- --watch"
     },
     "devDependencies": {
-        "concurrently": "^9.2.0"
+        "concurrently": "^9.2.0",
+        "typescript": "^5.8.3"
     }
 }

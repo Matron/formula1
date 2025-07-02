@@ -1,77 +1,39 @@
-import { useEffect, useState } from "react";
 import DataTable from "../components/DataTable/DataTable";
-import { driverColumns, type DriverStandings } from "../types/DriverStandings";
-import { constructorColumns, type ConstructorStanding } from "../types/ConstructorStandings";
-import { calendarColumns, type RaceEvent } from "../types/RaceCalendar";
-import { api } from "../api/api";
-
+import { driverColumns } from "../types/DriverStandings";
+import { constructorColumns } from "../types/ConstructorStandings";
+import { calendarColumns } from "../types/RaceCalendar";
+import { useDriverStandings } from "../hooks/useDriverStandings";
+import { useConstructorStandings } from "../hooks/useConstructorStandings";
+import { useRaceCalendar } from "../hooks/useRaceCalendar";
 
 
 export default function Dashboard() {
 
-    const [ driverStandings, setDriverStandings ] = useState<DriverStandings[]>([]);
-    const [ constructorStandings, setConstructorStandings ] = useState<ConstructorStanding[]>([]);
-    const [ calendar, setCalendar ] = useState<RaceEvent[]>([]);
-    const [ loading, setLoading ] = useState(true);
-    const [ loadingCalendar, setLoadingCalendar ] = useState(true);
-    const [ loadingConstructor, setLoadingConstructor ] = useState(true);
-
-    useEffect(() => {
-        api.get('/drivers/standings')
-            .then((res) => {
-                setDriverStandings(res.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.error('Failed to load driver standings', err);
-                setLoading(false);
-            });
-    }, []);
-
-    useEffect(() => {
-        api.get('/constructors/standings')
-            .then(res => {
-                setConstructorStandings(res.data);
-                setLoadingConstructor(false);
-            })
-            .catch((err) => {
-                console.error('Failed to load constructor standings ', err);
-                setLoadingConstructor(false);
-            });
-    }, []);
-
-    useEffect(() => {
-        api.get('/calendar/calendar')
-            .then(res => {
-                setCalendar(res.data);
-                setLoadingCalendar(false);
-            })
-            .catch((err) => {
-                console.error('Failed to load calendar ', err);
-                setLoadingCalendar(false);
-            });
-    }, []);
+    const { data: driverStandings, loading: loadingDrivers } = useDriverStandings();
+    const { data: constructorStandings, loading: loadingConstructors } = useConstructorStandings();
+    const { data: raceCalendar, loading: loadingCalendar } = useRaceCalendar();
 
     return (
-
-        <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 h-screen">
+        <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:h-screen">
             
             { /* Left: Calendar (2/3 width) */ }
-            <div className="lg:col-span-2 h-full overflow-auto">
-                { loadingCalendar ? (
-                    <p>Loading...</p>
-                ) : (
-                    <DataTable
+            <div className="lg:col-span-2 lg:h-full overflow-auto">
+                <div className="max-h-[600px] lg:h-full lg:max-h-full overflow-auto">
+                    { loadingCalendar ? (
+                        <p>Loading...</p>
+                    ) : (
+                        <DataTable
                         title="Race Calendar"
-                        columns={calendarColumns} data={calendar}
-                    />
-                )}
+                        columns={calendarColumns} data={raceCalendar}
+                        />
+                    )}
+                </div>
             </div>
 
             {/* Right: Drivers + Constructors */}
-            <div className="flex flex-col gap-6 h-full min-h-0">
-                <div className="flex-1 overflow-auto min-h-0">
-                    { loading ? (
+            <div className="flex flex-col gap-6 lg:h-full min-h-0">
+                <div className="max-h-[600px] lg:flex-1 lg:max-h-full overflow-auto min-h-o">
+                    { loadingDrivers ? (
                         <p>Loading...</p>
                     ) : (
                         <DataTable
@@ -80,8 +42,8 @@ export default function Dashboard() {
                         />
                     )}
                 </div>
-                <div className="flex-1 overflow-auto min-h-0">
-                    { loadingConstructor ? (
+                <div className="max-h-[600px] lg:flex-1 lg:max-h-full overflow-auto min-h-o">
+                    { loadingConstructors ? (
                         <p>Loading...</p>
                     ) : (
                         <DataTable

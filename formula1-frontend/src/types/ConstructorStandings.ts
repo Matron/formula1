@@ -1,12 +1,12 @@
 import type { Column } from "../components/DataTable/DataTable";
 
-export interface ConstructorStanding {
+export interface ConstructorStandings {
   position: number;
   name: string;
   points: number;
 }
 
-export const constructorColumns: Column<ConstructorStanding>[] = [
+export const constructorColumns: Column<ConstructorStandings>[] = [
     { key: 'position', label: 'Pos' },
     { key: 'name', label: 'Team' },
     { key: 'points', label: 'Points' },
